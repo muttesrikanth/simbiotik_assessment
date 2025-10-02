@@ -1,1 +1,43 @@
-<p>weather works!</p>
+
+<h2 class="mt-5 text-3xl font-bold text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">Weather</h2>
+<div class="max-w-xl mx-auto mt-5 p-6 bg-gradient-to-b from-blue-50 to-blue-100 shadow-lg rounded-lg">
+  <!-- Search Input -->
+  <input 
+    [formControl]="cityControl"
+    type="text" 
+    placeholder="Enter city"
+    class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 mb-6"
+  />
+
+  <!-- Loader -->
+  <div *ngIf="loading" class="w-full h-2 bg-blue-500 rounded animate-pulse mb-4"></div>
+
+  <!-- Error -->
+  <div *ngIf="error" class="bg-yellow-300 p-4 rounded flex justify-between items-center mb-4">
+    <span>Error fetching data!</span>
+    <button (click)="retry()" class="bg-yellow-500 hover:bg-yellow-600 px-3 py-1 rounded">Retry</button>
+  </div>
+
+  <!-- Current Weather -->
+  <div *ngIf="!loading && !error" class="text-center mb-6">
+    <h2 class="text-3xl font-bold">{{ currentWeather?.name }}</h2>
+    <p class="text-xl">{{ currentWeather?.main?.temp }}°C</p>
+    <p class="capitalize">{{ currentWeather?.weather[0]?.description }}</p>
+    <img *ngIf="currentWeather?.weather[0]?.icon" 
+         [src]="'https://openweathermap.org/img/wn/' + currentWeather.weather[0].icon + '@2x.png'" 
+         class="mx-auto">
+  </div>
+
+  <!-- 7-Day Forecast -->
+ <div *ngIf="forecast.length > 0" 
+     class="grid gap-4 justify-items-center"
+     style="grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));">
+  <div *ngFor="let day of forecast" 
+       class="bg-white p-4 rounded-lg shadow w-28 text-center">
+    <p class="font-semibold">{{ day.day }}</p>
+    <img [src]="'https://openweathermap.org/img/wn/' + day.icon + '.png'" class="mx-auto">
+    <p class="text-blue-600 font-bold">{{ day.temp }}°C</p>
+  </div>
+</div>
+
+</div>

@@ -56,11 +56,12 @@
   </div>
 
   <!-- Mobile overlay -->
+   @if(sidebarOpen())
+   {
   <div
-    *ngIf="sidebarOpen()"
     class="fixed inset-0 bg-black/50 z-40 md:hidden"
     (click)="toggleSidebar()"
-  ></div>
+  ></div>}
 
   <!-- Main Content -->
   <div class="flex-1 ml-0 md:ml-64 flex flex-col">
