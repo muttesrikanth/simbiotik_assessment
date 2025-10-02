@@ -1,1 +1,53 @@
-<p>login works!</p>
+<div
+  class="w-screen h-screen flex justify-center items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+>
+  <div
+    class="bg-white/90 backdrop-blur-xl shadow-2xl rounded-2xl p-8 sm:p-10 max-w-sm w-full space-y-6"
+  >
+    <h2 class="text-2xl font-bold text-center text-gray-800">Login</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <!-- Username -->
+      <div>
+        <input
+          type="text"
+          formControlName="username"
+          placeholder="Enter username"
+          class="w-full py-3 px-4 border rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        />
+        @if(f['username'].touched && f['username'].invalid){
+        <div class="text-red-500 text-sm mt-1">
+          @if(f['username'].errors?.['required']){
+          <span>Username is required</span>
+          }
+        </div>
+        }
+      </div>
+
+      <!-- Password -->
+      <div>
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="Enter password"
+          class="w-full py-3 px-4 border rounded-md focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+        />
+        @if(f['password'].touched && f['password'].invalid){
+        <div class="text-red-500 text-sm mt-1">
+          @if(f['password'].errors?.['required']){
+          <span>Password is required</span>
+          }
+        </div>
+        }
+      </div>
+
+      <!-- Submit -->
+      <button
+        type="submit"
+        class="w-full py-3 mt-2 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-indigo-600 hover:to-blue-500 text-white font-semibold rounded-xl shadow-md transition-all duration-300 disabled:opacity-50"
+      >
+        Login
+      </button>
+    </form>
+  </div>
+</div>
