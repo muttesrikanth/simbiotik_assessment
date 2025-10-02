@@ -1,1 +1,129 @@
-<p>todo works!</p>
+<div class="p-6 max-w-5xl mx-auto space-y-6">
+  <h1 class="text-3xl font-bold text-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">
+    TODO
+  </h1>
+
+  <div class="flex justify-between items-center">
+    <button (click)="openForm()" 
+            class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg shadow">
+      + Add TODO
+    </button>
+  </div>
+
+    <div class="overflow-x-auto rounded-lg shadow border">
+      <table class="w-full text-left">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="px-4 py-2">Title</th>
+            <th class="px-4 py-2">Description</th>
+            <th class="px-4 py-2">Status</th>
+            <th class="px-4 py-2 text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (todo of todos; track todo.id) {
+            <tr class="border-b hover:bg-gray-50">
+              <td class="px-4 py-2 font-medium">{{ todo.title }}</td>
+              <td class="px-4 py-2">{{ todo.description }}</td>
+              <td class="px-4 py-2">
+                <span [class]="todo.isCompleted ? 'text-green-600 font-bold' : 'text-gray-400'">
+                  {{ todo.isCompleted ? 'Done' : 'Pending' }}
+                </span>
+              </td>
+              <td class="px-4 py-2 flex justify-center gap-2">
+                <button (click)="viewDetails(todo)" 
+                        class="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded">
+                  View
+                </button>
+                <button (click)="openForm(todo)" 
+                        class="px-3 py-1 bg-yellow-500 hover:bg-yellow-600 text-white rounded">
+                  Edit
+                </button>
+                <button (click)="deleteTodo(todo.id)" 
+                        class="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="px-4 py-2 text-center text-gray-500">No todos found.</td>
+              <button (click)="loadTodos()">refresh</button>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  
+</div>
+
+@if (showForm || showDetails) {
+  <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    
+    @if (showForm) {
+      <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative">
+        <h2 class="text-xl font-semibold mb-4">{{ isEdit ? 'Edit TODO' : 'Create TODO' }}</h2>
+        <form [formGroup]="form" (ngSubmit)="submitForm()" class="space-y-3">
+          <div>
+            <input formControlName="title" type="text" placeholder="Title"
+                  class="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-indigo-300" />
+            @if (f.title.touched && f.title.invalid) {
+              <div class="text-red-500 text-sm mt-1">
+                @if (f.title.errors?.['required']) {
+                  <div>Title is required.</div>
+                }
+                @if (f.title.errors?.['minlength']) {
+                  <div>Title must be at least 3 characters.</div>
+                }
+              </div>
+            }
+          </div>
+
+          <div>
+            <textarea formControlName="description" placeholder="Description"
+                      class="w-full px-3 py-2 border rounded-lg focus:ring focus:ring-indigo-300"></textarea>
+            @if (f.description.touched && f.description.invalid) {
+              <div class="text-red-500 text-sm mt-1">
+                @if (f.description.errors?.['required']) {
+                  <div>Description is required.</div>
+                }
+                @if (f.description.errors?.['minlength']) {
+                  <div>Description must be at least 5 characters.</div>
+                }
+              </div>
+            }
+          </div>
+          <label class="flex items-center gap-2">
+            <input type="checkbox" formControlName="isCompleted" class="h-4 w-4 text-indigo-500" />
+            <span>Completed</span>
+          </label>
+
+          <button type="submit" (click)="closeModal()"
+                  class="w-full py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg shadow"
+                  [disabled]="form.invalid">
+            {{ isEdit ? 'Update' : 'Add' }}
+          </button>
+        </form>
+
+        <button (click)="closeModal()" 
+                class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl font-bold">&times;</button>
+      </div>
+    }
+
+    @if (showDetails && selectedTodo) {
+      <div class="bg-white rounded-xl shadow-lg w-full max-w-md p-6 relative">
+        <h2 class="text-xl text-center font-semibold mb-2"> {{ selectedTodo.title }}</h2>
+        <p class="text-gray-600">{{ selectedTodo.description }}</p>
+        <p class="mt-2">
+          Status: <span [class]="selectedTodo.isCompleted ? 'text-green-600 font-bold' : 'text-red-500'">
+            {{ selectedTodo.isCompleted ? 'Completed' : 'Pending' }}
+          </span>
+        </p>
+        <button (click)="closeModal()" 
+                class="mt-4 px-4 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg">
+          Close
+        </button>
+      </div>
+    }
+  </div>
+}
