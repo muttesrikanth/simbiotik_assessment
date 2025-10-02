@@ -21,5 +21,5 @@ export const routes: Routes = [
       { path: 'maps', component: Maps },
     ],
   },
-  { path: '**', component: Error },
+  { path: '**', component: Error, canActivate:[authGuardGuard]},
 ];
