@@ -1,41 +1,66 @@
 <div class="flex h-screen bg-gray-100">
-
   <!-- Sidebar -->
-  <div class="fixed inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 text-white shadow-lg transform transition-transform duration-300
-              md:translate-x-0
-              -translate-x-full" [class.translate-x-0]="sidebarOpen()">
-              
+  <div
+    class="fixed inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-indigo-500 via-purple-500 to-pink-500 text-white shadow-lg transform transition-transform duration-300 md:translate-x-0 -translate-x-full"
+    [class.translate-x-0]="sidebarOpen()"
+  >
     <!-- Header -->
     <div class="flex items-center justify-between p-6 border-b border-white/30">
-      <h1 routerLink="/dashboard" class="text-xl font-bold tracking-wider cursor-pointer">DASHBOARD</h1>
+      <h1 routerLink="/dashboard" class="text-xl font-bold tracking-wider cursor-pointer">
+        DASHBOARD
+      </h1>
       <button class="md:hidden text-white text-2xl" (click)="toggleSidebar()">✕</button>
     </div>
 
     <!-- Navigation -->
     <nav class="flex flex-col p-6 space-y-2 flex-1">
       <!-- Projects Accordion -->
-      <button (click)="toggleProjects()" class="flex items-center justify-between w-full px-4 py-3 rounded-lg font-semibold hover:bg-white/20 transition-all duration-300">
+      <button
+        (click)="toggleProjects()"
+        class="flex items-center justify-between w-full px-4 py-3 rounded-lg font-semibold hover:bg-white/20 transition-all duration-300"
+      >
         Projects
         <span [class.rotate-180]="projectsOpen()" class="transition-transform duration-300">▼</span>
       </button>
 
       <div *ngIf="projectsOpen()" class="ml-4 mt-2 space-y-1">
-        <p routerLink="/dashboard/todo" class="cursor-pointer block px-4 py-2 rounded-lg hover:bg-white/30 transition-all duration-300">Todo</p>
-        <p routerLink="/dashboard/weather" class="cursor-pointer block px-4 py-2 rounded-lg hover:bg-white/30 transition-all duration-300">Weather</p>
-        <p routerLink="/dashboard/maps" class="cursor-pointer block px-4 py-2 rounded-lg hover:bg-white/30 transition-all duration-300">Maps</p>
+        <p
+          routerLink="/dashboard/todo"
+          class="cursor-pointer block px-4 py-2 rounded-lg hover:bg-white/30 transition-all duration-300"
+        >
+          Todo
+        </p>
+        <p
+          routerLink="/dashboard/weather"
+          class="cursor-pointer block px-4 py-2 rounded-lg hover:bg-white/30 transition-all duration-300"
+        >
+          Weather
+        </p>
+        <p
+          routerLink="/dashboard/maps"
+          class="cursor-pointer block px-4 py-2 rounded-lg hover:bg-white/30 transition-all duration-300"
+        >
+          Maps
+        </p>
       </div>
     </nav>
 
-    <!-- Logout button at bottom -->
+    <!-- Logout button -->
     <div class="mt-auto p-6 flex justify-end">
-      <button class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-red-500 hover:bg-red-600 rounded-lg font-semibold shadow-lg transition-all duration-300">
+      <button
+        class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-red-500 hover:bg-red-600 rounded-lg font-semibold shadow-lg transition-all duration-300"
+      >
         Logout
       </button>
     </div>
   </div>
 
   <!-- Mobile overlay -->
-  <div *ngIf="sidebarOpen()" class="fixed inset-0 bg-black/50 z-40 md:hidden" (click)="toggleSidebar()"></div>
+  <div
+    *ngIf="sidebarOpen()"
+    class="fixed inset-0 bg-black/50 z-40 md:hidden"
+    (click)="toggleSidebar()"
+  ></div>
 
   <!-- Main Content -->
   <div class="flex-1 ml-0 md:ml-64 flex flex-col">
@@ -47,8 +72,7 @@
 
     <!-- Dashboard Content -->
     <main class="flex-1 bg-gray-100 overflow-auto">
-   <router-outlet></router-outlet>
+      <router-outlet></router-outlet>
     </main>
   </div>
-
 </div>
