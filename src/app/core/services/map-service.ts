@@ -7,9 +7,10 @@ import { Observable, map } from 'rxjs';
 })
 export class MapService {
   constructor(private http: HttpClient) {}
+   apiKey= "pk.f9724773ff3ab01d97fa6bbd4dbb625f"
 
   searchCity(city: string): Observable<{ lat: number; lon: number } | null> {
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${city}`;
+     const url = `https://us1.locationiq.com/v1/search?key=${this.apiKey}&q=${encodeURIComponent(city)}&format=json`;
     return this.http.get<any[]>(url).pipe(
       map(res => res.length ? { lat: +res[0].lat, lon: +res[0].lon } : null)
     );
