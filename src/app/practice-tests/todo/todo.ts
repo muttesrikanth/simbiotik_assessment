@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, signal } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { TodoServices, Todos } from '../../core/services/todo-services';
 import { CommonModule } from '@angular/common';
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './todo.css',
 })
 export class Todo implements OnInit {
-  todos: Todos[] = [];
+   todos = signal<Todos[]>([]);
   selectedTodo?: Todos;
   isEdit = false;
   showForm = false;
@@ -35,7 +35,7 @@ export class Todo implements OnInit {
   loadTodos() {
     this.service.getTodos().subscribe({
       next: (data) => {
-        this.todos = data;
+        this.todos.set(data)
       },
       error: (err) => {
         alert('Todo fetching failed');
